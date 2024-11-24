@@ -1,4 +1,4 @@
-package entity;
+package com.collabor8.entity;
 
 import jakarta.persistence.*;
 
@@ -15,7 +15,7 @@ public class Participant {
     private Long id;
 
     @Column(name = "joined_at", nullable = false, updatable = false)
-    private OffsetDateTime joinedAt = OffsetDateTime.now();
+    private final OffsetDateTime joinedAt = OffsetDateTime.now();
 
     // Relationships
     @ManyToOne

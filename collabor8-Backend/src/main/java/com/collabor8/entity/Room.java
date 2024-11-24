@@ -1,4 +1,4 @@
-package entity;
+package com.collabor8.entity;
 
 import jakarta.persistence.*;
 
@@ -17,10 +17,10 @@ public class Room {
     private String name;
 
     @Column(name = "created_at", nullable = false, updatable = false)
-    private OffsetDateTime createdAt = OffsetDateTime.now();
+    private final OffsetDateTime createdAt = OffsetDateTime.now();
 
     @Column(name = "updated_at", nullable = false)
-    private OffsetDateTime updatedAt = OffsetDateTime.now();
+    private final OffsetDateTime updatedAt = OffsetDateTime.now();
 
     // Relationships
     @ManyToOne
