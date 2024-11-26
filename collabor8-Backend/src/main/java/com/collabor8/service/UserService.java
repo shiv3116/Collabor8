@@ -3,6 +3,8 @@ package com.collabor8.service;
 import com.collabor8.dto.UserDto;
 import com.collabor8.entity.User;
 import com.collabor8.exception.UserNotFoundException;
+import com.collabor8.exception.UserNotRegistered;
+import com.collabor8.exception.UserNotUpdatedException;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,12 +20,29 @@ public class UserService {
 //    private PasswordEncoder passwordEncoder;
 
     // Register a new user
-    public User registerUser(UserDto userDto) {
-        User user = new User();
-        user.setUser_name(userDto.getUsername());
-        user.setEmail(userDto.getEmail());
-        user.setPassword(userDto.getPassword());
-        return userRepository.save(user);
+    public void registerUser(UserDto userDto) {
+        try {
+            User user = new User();
+            user.setUser_name(userDto.getUsername());
+            user.setEmail(userDto.getEmail());
+            user.setPassword(userDto.getPassword());
+            userRepository.save(user);
+        } catch (Exception e) {
+            throw new UserNotRegistered(e);
+        }
+    }
+
+    //Update user
+    public void updateUser(Long userId, UserDto userDto) {
+        try {
+            User user = userRepository.getReferenceById(userId);
+            user.setUser_name(userDto.getUsername());
+            user.setEmail(userDto.getEmail());
+            user.setPassword(userDto.getPassword());
+            userRepository.save(user);
+        } catch (Exception e) {
+            throw new UserNotUpdatedException(e);
+        }
     }
 
     // Delete user
