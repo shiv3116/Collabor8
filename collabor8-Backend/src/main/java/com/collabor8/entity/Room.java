@@ -27,8 +27,13 @@ public class Room {
     @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
 
-    @OneToMany(mappedBy = "room")
-    private List<Participant> participants;
+    @ManyToMany
+    @JoinTable(
+            name = "room_participants",
+            joinColumns = @JoinColumn(name = "room_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private List<User> participants;
 
     @OneToOne(mappedBy = "room", cascade = CascadeType.ALL)
     private CodeDocument codeDocument;
