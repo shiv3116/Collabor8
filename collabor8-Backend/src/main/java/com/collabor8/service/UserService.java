@@ -23,7 +23,7 @@ public class UserService {
     public void registerUser(UserDto userDto) {
         try {
             User user = new User();
-            user.setUser_name(userDto.getUsername());
+            user.setUser_name(userDto.getUser_name());
             user.setEmail(userDto.getEmail());
             user.setPassword(userDto.getPassword());
             userRepository.save(user);
@@ -36,7 +36,7 @@ public class UserService {
     public void updateUser(Long userId, UserDto userDto) {
         try {
             User user = userRepository.getReferenceById(userId);
-            user.setUser_name(userDto.getUsername());
+            user.setUser_name(userDto.getUser_name());
             user.setEmail(userDto.getEmail());
             user.setPassword(userDto.getPassword());
             userRepository.save(user);

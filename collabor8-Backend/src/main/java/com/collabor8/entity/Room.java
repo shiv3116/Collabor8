@@ -1,12 +1,14 @@
 package com.collabor8.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.time.OffsetDateTime;
 import java.util.List;
 
 @Entity
 @Table(name = "rooms")
+@Data
 public class Room {
 
     @Id
