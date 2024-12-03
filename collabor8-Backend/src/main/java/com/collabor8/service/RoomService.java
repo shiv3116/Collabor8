@@ -4,6 +4,7 @@ import com.collabor8.dto.RoomDto;
 import com.collabor8.entity.Room;
 import com.collabor8.entity.User;
 import com.collabor8.exception.RoomNotCreatedException;
+import com.collabor8.exception.RoomNotFoundException;
 import com.collabor8.exception.UserNotFoundException;
 import com.collabor8.repository.RoomRepository;
 import com.collabor8.repository.UserRepository;
@@ -40,5 +41,18 @@ public class RoomService {
         } catch(Exception e) {
             throw new RoomNotCreatedException(roomDto.getName(), e);
         }
+    }
+
+    //Join a Room
+    public void joinRoom(long id, List<Long> participantIds) {
+        Room room = roomRepository.findById(id).orElseThrow(() -> new RoomNotFoundException(id));
+        List<User> participants = room.getParticipants();
+        User user;
+        for(long pid: participantIds) {
+            user = userRepository.findById(pid).orElseThrow(() -> new UserNotFoundException(pid));
+            participants.add(user);
+        }
+        room.setParticipants(participants);
+        roomRepository.save(room);
     }
 }

@@ -1,5 +1,8 @@
 package com.collabor8.exception;
 
+import lombok.Data;
+
+@Data
 public class ErrorDetails {
     private int statusCode;
     private String message;
