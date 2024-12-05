@@ -44,12 +44,12 @@ public class RoomService {
     }
 
     //Join a Room
-    public void joinRoom(long id, List<Long> participantIds) {
+    public void joinRoom(long id, List<String> participantIds) {
         Room room = roomRepository.findById(id).orElseThrow(() -> new RoomNotFoundException(id));
         List<User> participants = room.getParticipants();
         User user;
-        for(long pid: participantIds) {
-            user = userRepository.findById(pid).orElseThrow(() -> new UserNotFoundException(pid));
+        for(String pid: participantIds) {
+            user = userRepository.findByUsername(pid).orElseThrow(() -> new UserNotFoundException(Long.parseLong(pid)));
             participants.add(user);
         }
         room.setParticipants(participants);

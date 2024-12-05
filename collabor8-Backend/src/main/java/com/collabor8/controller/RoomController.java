@@ -24,7 +24,7 @@ public class RoomController {
     }
 
     @PutMapping("/join/{id}")
-    public ResponseEntity<?> joinRoom(@PathVariable long id, @Valid @RequestBody List<Long> participantIds) {
+    public ResponseEntity<?> joinRoom(@PathVariable long id, @Valid @RequestBody List<String> participantIds) {
         roomService.joinRoom(id, participantIds);
         return ResponseEntity.status(HttpStatus.OK).body("Room joined Successfully");
     }

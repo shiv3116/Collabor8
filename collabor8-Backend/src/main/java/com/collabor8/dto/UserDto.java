@@ -9,10 +9,10 @@ import lombok.Data;
 @Data
 public class UserDto {
 
-    @NotBlank(message = "user_name is required")
-    @Size(min = 3, max = 32, message = "user_name must be between 3 and 32 characters")
-    @JsonProperty("user_name")
-    private String user_name;
+    @NotBlank(message = "username is required")
+    @Size(min = 3, max = 32, message = "username must be between 3 and 32 characters")
+    @JsonProperty("username")
+    private String username;
 
     @NotBlank(message = "Email is required")
     @Email(message = "Invalid email address")
@@ -23,8 +23,8 @@ public class UserDto {
     @Size(max = 255, message = "Password cannot be greater than 255 characters")
     private String password;
 
-    public UserDto(String user_name, String email, String password) {
-        this.user_name = user_name;
+    public UserDto(String username, String email, String password) {
+        this.username = username;
         this.email = email;
         this.password = password;
     }
