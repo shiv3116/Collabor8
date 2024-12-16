@@ -47,7 +47,7 @@ public class UserService {
             User user = userRepository.getReferenceById(userId);
             user.setUsername(userDto.getUsername());
             user.setEmail(userDto.getEmail());
-            user.setPassword(userDto.getPassword());
+            user.setPassword(passwordEncoder.encode(userDto.getPassword()));
             userRepository.save(user);
         } catch (Exception e) {
             throw new UserNotUpdatedException(e);
