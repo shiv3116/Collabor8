@@ -15,6 +15,11 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@Valid @RequestBody UserDto userDto) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.login(userDto));
+    }
+
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody UserDto userDto) {
         userService.registerUser(userDto);

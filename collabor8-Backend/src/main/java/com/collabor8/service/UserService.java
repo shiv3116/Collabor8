@@ -6,7 +6,10 @@ import com.collabor8.exception.UserNotFoundException;
 import com.collabor8.exception.UserNotRegistered;
 import com.collabor8.exception.UserNotUpdatedException;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.collabor8.repository.UserRepository;
 
@@ -16,8 +19,14 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JWTService jwtService;
+
+    @Autowired
+    AuthenticationManager authManager;
 
     // Register a new user
     public void registerUser(UserDto userDto) {
@@ -25,7 +34,7 @@ public class UserService {
             User user = new User();
             user.setUsername(userDto.getUsername());
             user.setEmail(userDto.getEmail());
-            user.setPassword(userDto.getPassword());
+            user.setPassword(passwordEncoder.encode(userDto.getPassword()));
             userRepository.save(user);
         } catch (Exception e) {
             throw new UserNotRegistered(e);
@@ -51,5 +60,14 @@ public class UserService {
             throw new UserNotFoundException(userId);
         }
         userRepository.deleteById(userId);
+    }
+
+    //login user
+    public String login(UserDto userDto) {
+        Authentication authentication = authManager.authenticate(new UsernamePasswordAuthenticationToken(userDto.getUsername(), userDto.getPassword()));
+        if(authentication.isAuthenticated()) {
+            return jwtService.generateToken(userDto.getUsername());
+        }
+        return "Invalid Login Information";
     }
 }
